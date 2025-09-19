@@ -8,15 +8,34 @@
   --rosa: #F85B72;
 }
 
-/* --- RESET EXTRA (garante suavidade nas animações) --- */
+/* --- RESET EXTRA --- */
 * {
   transition: all 0.3s ease;
 }
 
+/* --- VÍDEO DE FUNDO --- */
+#video-fundo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2; /* atrás do overlay e conteúdo */
+}
+
+/* --- OVERLAY ESCURO --- */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5); /* cinza escuro semi-transparente */
+  z-index: -1; /* entre o vídeo e o conteúdo */
+}
+
 body {
-  background: 
-    linear-gradient(160deg, rgba(94,0,255,0.5) 20%, rgba(0,0,0,0) 100%), /* degradê roxo sutil */
-    var(--fundo); /* fundo preto sólido */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,6 +44,7 @@ body {
   min-height: 100vh;
   color: var(--texto-principal);
   padding: 20px;
+  position: relative; /* garante que o conteúdo fique acima do overlay */
 }
 
 /* --- TÍTULO --- */
@@ -34,20 +54,26 @@ body {
   color: var(--destaque);
   margin-bottom: 30px;
   text-align: center;
+  z-index: 1;
+  position: relative;
 }
 
-/* --- CONTÊINER DOS BOTÕES --- */
+/* --- CONTÊINER DOS BOTÕES COM EFEITO VIDRO --- */
 .teclado-container {
-  background: var(--fundo-card); /* Mesma cor de fundo dos botões */
-  padding: 30px; /* Espaçamento interno */
-  border-radius: 20px; /* Bordas arredondadas */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); /* Sombra para destaque */
-  margin-bottom: 40px; /* Espaçamento abaixo do container */
+  background: rgba(255, 255, 255, 0.1); /* transparente */
+  backdrop-filter: blur(10px); /* efeito borrado */
+  -webkit-backdrop-filter: blur(10px); /* compatibilidade Safari */
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* sombra sutil */
+  margin-bottom: 40px;
   width: 100%;
-  max-width: 860px; /* Um pouco maior que o teclado para acomodar o padding */
-  display: flex; /* Para centralizar o grid interno */
-  justify-content: center; /* Centraliza horizontalmente */
-  align-items: center; /* Centraliza verticalmente */
+  max-width: 860px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  position: relative;
 }
 
 /* --- GRID DE BOTÕES --- */
@@ -55,32 +81,36 @@ body {
   display: grid;
   gap: 35px;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  width: 100%; /* Ocupa 100% da largura do container pai */
-  max-width: 800px; /* Mantém o max-width original para o grid interno */
+  width: 100%;
+  max-width: 800px;
 }
 
-/* --- BOTÕES (CARDS) --- */
+/* --- BOTÕES COM EFEITO VIDRO BORRADO --- */
 .tecla {
-  background: var(--fundo-card);
+  background: rgba(255, 255, 255, 0.05); /* quase transparente */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 16px;
   padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* sombra suave */
+  transition: all 0.3s ease;
 }
 
+/* Mantém cores originais das imagens */
 .tecla img {
-  width: 60px;
-  height: 60px;
-  filter: brightness(0) invert(1); /* deixa todos brancos */
+  width: 100px;
+  height: 100px;
 }
 
+/* Hover deixa o botão mais visível */
 .tecla:hover {
-  background: var(--fundo-card-hover);
+  background: rgba(255, 255, 255, 0.15);
   transform: translateY(-6px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
 /* --- QUANDO CLICAR --- */
@@ -95,6 +125,8 @@ body {
   text-align: center;
   color: var(--texto-secundario);
   font-size: 0.9rem;
+  z-index: 1;
+  position: relative;
 }
 
 .tiago {
